@@ -3,11 +3,13 @@
 #include "sm.h"
 using namespace std;
 
-KPM::KPM() {
+SparseMatrixClass::SparseMatrixClass() {
 	Matrix = nullptr;
 	rows = 0; columns = 0;
 }
-KPM::KPM(int row, int col) {
+
+
+SparseMatrixClass::SparseMatrixClass(int row, int col) {
 	rows = row; columns = col;
 	Matrix = new int* [rows];
 	for (int i = 0; i < rows; i++)
@@ -16,7 +18,9 @@ KPM::KPM(int row, int col) {
 		for (int j = 0; j < columns; j++)
 			Matrix[i][j] = 0;
 }
-KPM::KPM(const KPM& other) {
+
+
+SparseMatrixClass::SparseMatrixClass(const SparseMatrixClass& other) {
 	rows = other.rows; columns = other.columns;
 	Matrix = new int* [rows];
 	if (other.Matrix != nullptr) {
@@ -28,7 +32,9 @@ KPM::KPM(const KPM& other) {
 	}
 	AN = other.AN; NC = other.NC; NR = other.NR; JC = other.JC; JR = other.JR;
 }
-KPM& KPM::operator=(const KPM& other) {
+
+
+SparseMatrixClass& SparseMatrixClass::operator=(const SparseMatrixClass& other) {
 	if (this == &other)
 		return *this;
 
@@ -50,11 +56,11 @@ KPM& KPM::operator=(const KPM& other) {
 	AN = other.AN; NR = other.NR; NC = other.NC; JC = other.JC; JR = other.JR;
 	return *this;
 }
-void KPM::Add(int value, int row, int column) {
+void SparseMatrixClass::Add(int value, int row, int column) {
 	if (Matrix != nullptr)
 		Matrix[row][column] = value;
 }
-void KPM::Boxing(void) {
+void SparseMatrixClass::Boxing(void) {
 	bool FindFirstItem;
 	int* tempAN; int* tempNC; int* tempJC;
 	int* tempIA; int* tempJA;
@@ -155,7 +161,9 @@ void KPM::Boxing(void) {
 
 	delete tempAN; delete tempNC; delete tempJC; delete tempJA; delete tempIA;
 }
-void KPM::UnBoxing(void) {
+
+
+void SparseMatrixClass::UnBoxing(void) {
 	if (Matrix != nullptr) {
 		for (int i = 0; i < rows; i++)
 			delete Matrix[i];
@@ -213,9 +221,8 @@ void KPM::UnBoxing(void) {
 			Matrix[ItemRow][ItemCol] = value;
 	}
 }
-void KPM::ShowMatrix(void) {
-	//cout << "-------------------------" << endl;
-	cout << "SIZE (" << rows << "x" << columns << ")" << endl;
+void SparseMatrixClass::ShowMatrix(void) {
+	cout << "Размер (" << rows << "x" << columns << ")" << endl;
 	if (Matrix != nullptr) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++)
@@ -223,11 +230,10 @@ void KPM::ShowMatrix(void) {
 			cout << endl;
 		}
 	}
-	//cout << "-------------------------" << endl;
 }
-void KPM::ShowBoxing(void) {
-	//cout << "----------------------------" << endl;
-	//cout << "Boxing Matrix:" << endl;
+
+
+void SparseMatrixClass::ShowBoxing(void) {
 	cout << "AN: [ ";
 	for (int i = 0; i < AN.size(); i++)
 		cout << AN[i] << " ";
@@ -248,5 +254,4 @@ void KPM::ShowBoxing(void) {
 	for (int i = 0; i < JC.size(); i++)
 		cout << JC[i] << " ";
 	cout << "]" << endl;
-	//cout << "----------------------------" << endl;
 }

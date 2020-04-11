@@ -289,6 +289,7 @@ void Output(SparseMatrixClass& result, SparseMatrixClass& matrix1, SparseMatrixC
 	cout << "-----------------------------" << endl;
 	matrix1.ShowBoxing();
 	cout << "-----------------------------" << endl;
+	cout << "-----------------------------" << endl;
 	cout << "\t”паковка матрицы 2:" << endl;
 	cout << "-----------------------------" << endl;
 	matrix2.ShowBoxing();

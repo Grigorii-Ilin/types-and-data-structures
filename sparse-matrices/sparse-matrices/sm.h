@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class KPM {
+class SparseMatrixClass {
 private:
 	int rows;
 	int columns;
@@ -15,10 +15,10 @@ public:
 	vector<int> JR;
 	vector<int> JC;
 
-	KPM();
-	KPM(int, int);
-	KPM(const KPM&);
-	KPM& operator=(const KPM&);
+	SparseMatrixClass();
+	SparseMatrixClass(int, int);
+	SparseMatrixClass(const SparseMatrixClass&);
+	SparseMatrixClass& operator=(const SparseMatrixClass&);
 	void Add(int, int, int);
 	void Boxing(void);
 	void UnBoxing(void);
@@ -39,7 +39,7 @@ public:
 	}
 	void ShowMatrix(void);
 	void ShowBoxing(void);
-	~KPM() {
+	~SparseMatrixClass() {
 		if (Matrix != nullptr) {
 			for (int i = 0; i < rows; i++)
 				delete Matrix[i];
