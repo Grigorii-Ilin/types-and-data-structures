@@ -6,7 +6,7 @@ namespace ReversePolishNotation {
             Console.WriteLine("Reverse Polish notation calculator.");
 
             while (true) {
-                Console.WriteLine("\nExample to enter: -2*x + sin(0.5*x)");
+                Console.WriteLine("\nExample to enter: -2*x / (2,9 - 6)");
                 string input = Console.ReadLine(); //TODO check input
 
                 Console.WriteLine("Input left border:");
@@ -28,8 +28,6 @@ namespace ReversePolishNotation {
 
                     x += step;
                 } while (x < rightBorder);
-
-
 
             }
         }

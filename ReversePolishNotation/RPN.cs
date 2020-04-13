@@ -5,20 +5,21 @@ using System.Text;
 
 namespace ReversePolishNotation {
     class RPN {
-        //Преобразовывание
         static public string ToNotation(string input, double x) {
-            //string input = inputedStr;
             string notation = "";
             bool unaryMinus = false;
-            Stack<char> operators = new Stack<char>(); //Операторы
+            Stack<char> operators = new Stack<char>(); 
 
             for (int i = 0; i < input.Length; i++) { //TODO change to do-while
+
+                //spaces
                 if (IsSpace(input[i])) {
                     unaryMinus = false;
                     continue;
                 }
 
-                if (input[i]=='x') {
+                //x
+                if (input[i]=='x') { 
                     if ((unaryMinus && x>=0)||x<0) {
                         notation += "m";
                     }
@@ -26,12 +27,11 @@ namespace ReversePolishNotation {
                     continue;
                 }
 
-                //Получаем число
+                //digits
                 if (Char.IsDigit(input[i])) {
                     if (unaryMinus) {
                         notation += "m";
                     }
-
 
                     while (!IsSpace(input[i]) && !IsOperator(input[i])) {
                         notation += input[i];
@@ -39,12 +39,11 @@ namespace ReversePolishNotation {
 
                         if (i == input.Length) break;
                     }
-
                     notation += " ";
                     i--;
                 }
 
-                //Получаем операторы
+                // + - * / () sin
                 if (IsOperator(input[i])) {
                     if (input[i] == '-' && Char.IsDigit(input[i+1])) {
                         unaryMinus = true;
@@ -63,10 +62,10 @@ namespace ReversePolishNotation {
                     }
                     else {
                         if (operators.Count > 0)
-                            if (GetPriority(input[i]) <= GetPriority(operators.Peek())) //приоритет меньше или равен
+                            if (GetPriority(input[i]) <= GetPriority(operators.Peek())) 
                                 notation += operators.Pop().ToString() + " ";
 
-                        operators.Push(char.Parse(input[i].ToString())); //стек пуст или приоритет выше
+                        operators.Push(char.Parse(input[i].ToString())); 
 
                         if (input[i] == 's')
                             i += 2;
@@ -80,9 +79,8 @@ namespace ReversePolishNotation {
             return notation;
         }
 
-        //Вычисление
         static public double Calculate(string notation) {
-            double result = 0; //Результат
+            double result = 0.0; 
             Stack<double> numbers = new Stack<double>();
             bool unaryMinus = false;
 
@@ -104,7 +102,6 @@ namespace ReversePolishNotation {
                     unaryMinus = false;
                 }
                 else if (IsOperator(notation[i])) {
-                    //Два последних числа
                     double a = numbers.Pop();
                     double b = notation[i] != 's' ? numbers.Pop() : 0.0;
 
@@ -125,7 +122,7 @@ namespace ReversePolishNotation {
                             }
                         case 's': result = Math.Sin(a); break; 
                     }
-                    numbers.Push(result); //Результат в стек
+                    numbers.Push(result); 
                 }
 
             }
@@ -133,18 +130,13 @@ namespace ReversePolishNotation {
         }
 
 
-        //Проверка на пробел и равно
         static private bool IsSpace(char c) {
-            if ((" ".IndexOf(c) == 0))
-                return true;
-            return false;
+            return (" ".IndexOf(c) == 0);
         }
 
         //Проверка на оператор
         static private bool IsOperator(char с) {
-            if (("+-/*s()".IndexOf(с) != -1))
-                return true;
-            return false;
+            return ("+-/*s()".IndexOf(с) != -1);
         }
 
         //Приоритет
