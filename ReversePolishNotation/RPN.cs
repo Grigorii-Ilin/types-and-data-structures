@@ -2,42 +2,40 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace ReversePolishNotation {
     class RPN {
-
         //Преобразовывание
-        static public string ToNotation(string input) {
-            string notation = ""; //Результат
+        static public string ToNotation(string input, double x) {
+            //string input = inputedStr;
+            string notation = "";
+            bool unaryMinus = false;
             Stack<char> operators = new Stack<char>(); //Операторы
 
-            int i = 0;
-            //bool wasDigit = false;
-            do {
-                char c = input[i];
-
-                if (c==' ') {
-                    i++;
+            for (int i = 0; i < input.Length; i++) { //TODO change to do-while
+                if (IsSpace(input[i])) {
+                    unaryMinus = false;
                     continue;
                 }
-                else if (char.IsDigit(c) || c=='.') {
-                    //wasDigit = true;
-                    notation += c;
-                    i++;
-                }
 
-
-            } while (i< input.Length);
-
-
-            for (int i = 0; i < input.Length; i++) {
-                if (IsDelimeter(input[i]))
+                if (input[i]=='x') {
+                    if ((unaryMinus && x>=0)||x<0) {
+                        notation += "m";
+                    }
+                    notation += Math.Abs(x).ToString() + " ";
                     continue;
+                }
 
                 //Получаем число
                 if (Char.IsDigit(input[i])) {
-                    while (!IsDelimeter(input[i]) && !IsOperator(input[i])) {
+                    if (unaryMinus) {
+                        notation += "m";
+                    }
+
+
+                    while (!IsSpace(input[i]) && !IsOperator(input[i])) {
                         notation += input[i];
-                        i++;
+                        i++; //TODO it is not good practice, change
 
                         if (i == input.Length) break;
                     }
@@ -48,6 +46,12 @@ namespace ReversePolishNotation {
 
                 //Получаем операторы
                 if (IsOperator(input[i])) {
+                    if (input[i] == '-' && Char.IsDigit(input[i+1])) {
+                        unaryMinus = true;
+                        continue;
+                    }
+                    unaryMinus = false;
+
                     if (input[i] == '(')
                         operators.Push(input[i]);
                     else if (input[i] == ')') {
@@ -63,6 +67,9 @@ namespace ReversePolishNotation {
                                 notation += operators.Pop().ToString() + " ";
 
                         operators.Push(char.Parse(input[i].ToString())); //стек пуст или приоритет выше
+
+                        if (input[i] == 's')
+                            i += 2;
                     }
                 }
             }
@@ -74,50 +81,68 @@ namespace ReversePolishNotation {
         }
 
         //Вычисление
-        static public double Calculate(string notation, double x) {
+        static public double Calculate(string notation) {
             double result = 0; //Результат
-            Stack<double> temp = new Stack<double>();
+            Stack<double> numbers = new Stack<double>();
+            bool unaryMinus = false;
 
             for (int i = 0; i < notation.Length; i++) {
-                if (Char.IsDigit(notation[i])) {
-                    string a = string.Empty;
+                if (notation[i]=='m') {
+                    unaryMinus=true;
+                }
+                else if (Char.IsDigit(notation[i])) {
+                    string numberStr = (unaryMinus)?"-":"";
 
-                    while (!IsDelimeter(notation[i]) && !IsOperator(notation[i])) {
-                        a += notation[i];
+                    while (!IsSpace(notation[i]) && !IsOperator(notation[i])) {
+                        numberStr += notation[i];
                         i++;
                         if (i == notation.Length) break;
                     }
-                    temp.Push(double.Parse(a));
+                    numbers.Push(double.Parse(numberStr));
                     i--;
+
+                    unaryMinus = false;
                 }
                 else if (IsOperator(notation[i])) {
                     //Два последних числа
-                    double a = temp.Pop();
-                    double b = temp.Pop();
+                    double a = numbers.Pop();
+                    double b = notation[i] != 's' ? numbers.Pop() : 0.0;
 
                     switch (notation[i]) {
                         case '+': result = b + a; break;
                         case '-': result = b - a; break;
                         case '*': result = b * a; break;
-                        case '/': result = b / a; break;
+                        case '/': {
+                                try {
+                                    result = b / a; 
+                                    break;
+                                }
+                                catch (DivideByZeroException) {
+                                    Console.WriteLine("Division of by zero.");
+                                    break;
+                                }
+
+                            }
+                        case 's': result = Math.Sin(a); break; 
                     }
-                    temp.Push(result); //Результат в стек
+                    numbers.Push(result); //Результат в стек
                 }
+
             }
-            return temp.Peek();
+            return numbers.Peek();
         }
 
 
         //Проверка на пробел и равно
-        static private bool IsDelimeter(char c) {
-            if ((" =".IndexOf(c) != -1))
+        static private bool IsSpace(char c) {
+            if ((" ".IndexOf(c) == 0))
                 return true;
             return false;
         }
 
         //Проверка на оператор
         static private bool IsOperator(char с) {
-            if (("+-/*^()".IndexOf(с) != -1))
+            if (("+-/*s()".IndexOf(с) != -1))
                 return true;
             return false;
         }
@@ -126,15 +151,15 @@ namespace ReversePolishNotation {
         static private byte GetPriority(char s) {
             switch (s) {
                 case '(': return 0;
-                case ')': return 1;
+                case ')': return 0;
+                case 's': return 1;
                 case '+': return 2;
-                case '-': return 3;
-                case '*': return 4;
-                case '/': return 4;
-                case '^': return 5;
-                default: return 6;
-            }
+                case '-': return 2;
+                case '*': return 3;
+                case '/': return 3;
 
+            }
+            return 10;
         }
     }
 }
