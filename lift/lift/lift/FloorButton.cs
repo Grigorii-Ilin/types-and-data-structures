@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace lift{
     class FloorButton {
-        static int counter = 0;//for id
-        int id;
+        //static int counter = 0;//for id
+        //int id;
 
         bool? pressedDown=null;
         bool? pressedUp=null;
 
         public FloorButton(bool isDown, bool isUp) {
+            //this.id = ++counter;
+
             if (isDown) {
                 pressedDown = false;
             }
