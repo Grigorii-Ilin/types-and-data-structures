@@ -15,8 +15,22 @@ namespace lift {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
+        private void btStart_Click(object sender, EventArgs e) {
+            btStart.Enabled = false;
             var bl = new BuildingLogic();
+            pnNewPassenger.Enabled = true;
+            tmTick.Enabled = true;
+            btStop.Enabled = true;
+        }
+
+        private void btStop_Click(object sender, EventArgs e) {
+            btStop.Enabled = false;
+            pnNewPassenger.Enabled = false;
+            tmTick.Enabled = false;
+
+            //
+
+            btStart.Enabled = true;
         }
     }
 }

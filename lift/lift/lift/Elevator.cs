@@ -19,8 +19,10 @@ namespace lift {
         double weight = 0.0;
         double speed=0.0;
         double floor;
+        List<Passenger> passengers;
 
         public Elevator(double floor, int floorsCount) {
+            this.id = ++counter;
 
             this.buttons = new bool[floorsCount];
             for (int i = 0; i < this.buttons.Length; i++) {
@@ -29,7 +31,7 @@ namespace lift {
 
             this.floor = floor;
 
-            this.id=++counter;
+            this.passengers = new List<Passenger>();
         }
     }
 }
