@@ -3,6 +3,8 @@ import random
 from elevator import Elevator
 from floor import Floor
 
+MODELLING_STEP=0.5
+
 class Building_logic:
     def __init__(self, floors_count, elevators_count):
 
@@ -29,6 +31,7 @@ class Building_logic:
         return False
 
 
+    #TODO decomposition
     @classmethod
     def run(cls, floors_count: int, elevators_count: int): 
         #Метод для инициализации здания и запуска его лифтов в работу
@@ -47,7 +50,7 @@ class Building_logic:
         building.add_floors_passengers()
 
         minutes_counter = 0.0
-        release_counter = 0 # Счетчик развезенных пассажиров
+        released_passengers=[]
 
 
         while building.is_active_passengers(): #ГЛАВНЫЙ ЦИКЛ
@@ -71,8 +74,8 @@ class Building_logic:
                 if step == path[-1]:
                     # Удаление пассажиров из лифта
                     removed = e.release_passengers()
-                    # Увеличение счетчика развезенных пассажиров
-                    release_counter += len(removed)
+                    released_passengers.extend(removed)
+
                     # Переопределение направления дальнейшего движения
                     e.redefine_direction(floors)
                     # Забор пассажиров по направлению движения
@@ -100,16 +103,29 @@ class Building_logic:
                     else None
             print('\n')
 
-            minutes_counter += 0.5
+
+            minutes_counter += MODELLING_STEP
             minutes_counter=round(minutes_counter, 1)
+
+            
+            for f in floors:
+                for p in f.passengers:
+                    p.add_wait_time(MODELLING_STEP)
+
+            for e in elevators:
+                for p in e.cur_passengers:
+                    p.add_move_time(MODELLING_STEP)
+
 
         print('')
         print('Этажей: %d. Число лифтов: %d. Всего минут: %d. Развезено пассажиров: %d' % (
             floors_count, 
             elevators_count, 
             minutes_counter, 
-            release_counter)
+            len(released_passengers))
             )
+
+        return released_passengers
 
     def __str__(self):
         return 'Здание - Этажей: %s, Лифтов: %s' % (self.floors_count, self.elevators_count)

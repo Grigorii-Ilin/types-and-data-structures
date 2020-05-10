@@ -7,7 +7,7 @@ class Floor:
 
     def __init__(self, number):
         self.number = number
-        self.max_num_of_passengers = 20
+        self.max_num_of_passengers = 14
         self.passengers = []
         self.up_button = Button()
         self.down_button = Button()
@@ -48,7 +48,7 @@ class Floor:
     def get_count_of_passengers(self):
         return len(self.passengers)
 
-    def get_passengers_list(self, inc, floor, up_elevator_state, down_elevator_state):
+    def get_passengers_list(self, free_places, floor, up_elevator_state, down_elevator_state):
         #для получения списка объектов пассажиров, переходящих в лифт
 
         ps_list = self.passengers
@@ -61,7 +61,7 @@ class Floor:
         elif down_elevator_state:
             ps_list = [ps for ps in self.passengers if ps.target_floor.number < floor.number]
 
-        return ps_list[:inc]
+        return ps_list[:free_places], free_places>len(ps_list)
 
     def get_numbers_of_passengers_target_floors(self):
         return [p.target_floor.number for p in self.passengers]

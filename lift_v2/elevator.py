@@ -119,7 +119,7 @@ class Elevator:
         new_ps = []
         # Если есть места, то пассажиры добавляются в лифт 
         if free_places > 0:
-            new_ps = self.cur_floor.get_passengers_list(free_places, 
+            new_ps, is_overload = self.cur_floor.get_passengers_list(free_places, 
                                                         self.cur_floor,
                                                         self.is_elevator_up,
                                                         self.is_elevator_down
@@ -127,6 +127,9 @@ class Elevator:
             self.cur_passengers += new_ps
             # Пассажиры, добавленные в лифт, удаляются с этажа
             self.cur_floor.remove_passengers(new_ps)
+
+            if is_overload:
+                print('\nЛифт %d перегружен!'% (self.id))
 
         return [ps_ts.target_floor.number for ps_ts in new_ps]
 
@@ -142,7 +145,7 @@ class Elevator:
 
         self.cur_passengers = cur_passengers_tmp
 
-        return [ps_ts.target_floor.number for ps_ts in removed_passengers]
+        return removed_passengers#[ps_ts.target_floor.number for ps_ts in removed_passengers]
 
     def __str__(self):
         return 'Лифт %s - На этаже: %s, Пассажиры: %s : Нажатые кнопки этажей : %s' % (
