@@ -34,6 +34,7 @@
             this.btNewPassenger = new System.Windows.Forms.Button();
             this.lbAutor = new System.Windows.Forms.Label();
             this.btStop = new System.Windows.Forms.Button();
+            this.btStart = new System.Windows.Forms.Button();
             this.pnNewPassenger.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFromFloor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudToFloor)).BeginInit();
@@ -84,7 +85,6 @@
             // 
             // tmTick
             // 
-            this.tmTick.Enabled = true;
             this.tmTick.Interval = 1000;
             // 
             // lbFromFloor
@@ -129,7 +129,7 @@
             // 
             // btNewPassenger
             // 
-            this.btNewPassenger.Location = new System.Drawing.Point(209, 47);
+            this.btNewPassenger.Location = new System.Drawing.Point(209, 30);
             this.btNewPassenger.Name = "btNewPassenger";
             this.btNewPassenger.Size = new System.Drawing.Size(202, 40);
             this.btNewPassenger.TabIndex = 4;
@@ -147,24 +147,35 @@
             // 
             // btStop
             // 
-            this.btStop.Location = new System.Drawing.Point(568, 73);
+            this.btStop.Location = new System.Drawing.Point(677, 53);
             this.btStop.Name = "btStop";
             this.btStop.Size = new System.Drawing.Size(109, 40);
             this.btStop.TabIndex = 3;
-            this.btStop.Text = "Стоп!";
+            this.btStop.Text = "Стоп";
             this.btStop.UseVisualStyleBackColor = true;
+            // 
+            // btStart
+            // 
+            this.btStart.Location = new System.Drawing.Point(533, 53);
+            this.btStart.Name = "btStart";
+            this.btStart.Size = new System.Drawing.Size(109, 40);
+            this.btStart.TabIndex = 4;
+            this.btStart.Text = "Старт";
+            this.btStart.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 450);
+            this.Controls.Add(this.btStart);
             this.Controls.Add(this.btStop);
             this.Controls.Add(this.lbAutor);
             this.Controls.Add(this.pnNewPassenger);
             this.Controls.Add(this.tbLog);
             this.Name = "Form1";
             this.Text = "Моделирование лифтов";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.pnNewPassenger.ResumeLayout(false);
             this.pnNewPassenger.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFromFloor)).EndInit();
@@ -186,6 +197,7 @@
         private System.Windows.Forms.Timer tmTick;
         private System.Windows.Forms.Label lbAutor;
         private System.Windows.Forms.Button btStop;
+        private System.Windows.Forms.Button btStart;
     }
 }
 
