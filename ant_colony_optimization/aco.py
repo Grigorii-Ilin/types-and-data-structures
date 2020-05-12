@@ -15,6 +15,7 @@ class AntColony(object):
 		self.alpha = alpha									# alpha	(float)
 		self.beta = beta									# betta	(float)
     	# Основная функция
+
 	def run(self):
 		shortest_way = None
 		all_time_shortest_way = ("route", np.inf)
@@ -28,7 +29,7 @@ class AntColony(object):
 				all_time_shortest_way = shortest_way
 			self.pheromone * self.decay			#Испарение феромонов
 		
-		return all_time_shortest_way[1]
+		return all_time_shortest_way#[1]
 	
 	# Добавление феромонов на участки по которым пробегали муравьи
 	def distribution_pheromone(self, all_route, num_ants, shortest_way):	 
@@ -81,14 +82,15 @@ class AntColony(object):
 
 
 #Входные данные
-np.random.seed(7)
+np.random.seed(18)
 distances = np.random.randint(1, 50, size=(20, 20))
 
 distances = np.array([[0, 2, 30, 9, 1],
                      [4, 0, 47, 7, 7],
                     [31, 33, 0, 33, 36],
                      [20, 13, 16, 0, 28],
-                    [9, 36, 22, 22, 0]])
+                    [9, 36, 22, 22, 0]]
+                    )
 
 # Вход через stdin
 #a = sys.stdin.read()
@@ -108,7 +110,7 @@ for p in range(len(distances)):
 	j+=1
 
 
-ant_colony = AntColony(distances, 5, 100, 0.95, alpha=1, beta=2)	# Запуск алгоритма
+ant_colony = AntColony(distances, 5, 1000, 0.95, alpha=1, beta=2)	# Запуск алгоритма
 shortest_path = ant_colony.run()		# Получение самого короткого пути
 sys.stdout.write(str(shortest_path))
 
