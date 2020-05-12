@@ -1,26 +1,21 @@
 #include "io.h"
 #include <stdlib.h>
 
-error_t print_way(way_t *way)
-{
+error_t print_way(way_t* way) {
 	if (!way)
 		return ERROR_INPUT;
-	if (way->list)
-	{
+	if (way->list) {
 		printf("Самый короткий путь:%d", way->list->num + 1);
-		list_t *current = way->list;
-		do
-		{
+		list_t* current = way->list;
+		do {
 			current = current->next;
 			printf("->%d", current->num + 1);
-		}
-		while (current != way->list);
+		} while (current != way->list);
 		putchar('\n');
 		printf("Длина самого короткого пути:%d", way->length);
 		putchar('\n');
 	}
-	else
-	{
+	else {
 		printf("В данном графе все пути тупиковые (нельзя найти гамильтонов путь)");
 	}
 	return SUCCESS;
@@ -51,35 +46,22 @@ error_t print_way(way_t *way)
 //	return SUCCESS;
 //}
 
-error_t input_integer(int *number, const char *name, char is_positive)
-{
-	if (!number || !name)
-		return ERROR_INPUT;
-	while (1)
-	{
-		printf("Введите %s (целое число):", name);
-		if (scanf_s("%d", number) == 0)
-		{
-			puts("Вы ввели не целое число!");
-			continue;
-		}
-		if (*number <= 0 && is_positive)
-			puts("Вводимое число дожно быть положительным!");
-		else
-			break;
-	}
-	return SUCCESS;
+void input_integer(int* digits, const char* name) {
+
+	do {
+		printf("Please input %s :", name);
+	} while (scanf_s("%d", digits) <= 0);
+
+
+
 }
 
-error_t input_float(double *number, const char *name, char is_positive)
-{
+error_t input_float(double* number, const char* name, char is_positive) {
 	if (!number || !name)
 		return ERROR_INPUT;
-	while (1)
-	{
+	while (1) {
 		printf("Введите %s (число):", name);
-		if (scanf_s("%lf", number) == 0)
-		{
+		if (scanf_s("%lf", number) == 0) {
 			puts("Вы ввели не число!");
 			continue;
 		}
@@ -92,8 +74,7 @@ error_t input_float(double *number, const char *name, char is_positive)
 }
 
 #define IS_POSITIVE 1
-error_t input_parameters(parameters_t *parameters)
-{
+error_t input_parameters(parameters_t* parameters) {
 	if (!parameters)
 		return ERROR_INPUT;
 	input_float(&(parameters->alpha), "alpha", IS_POSITIVE);
