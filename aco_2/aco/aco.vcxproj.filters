@@ -21,9 +21,6 @@
     <ClCompile Include="func_memory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="generator.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="io.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="way.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="towns_generator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="way.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="towns_generator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

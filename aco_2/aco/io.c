@@ -26,30 +26,30 @@ error_t print_way(way_t *way)
 	return SUCCESS;
 }
 
-error_t input_matrix_from_file(double ***matrix, int *count, FILE *file)
-{
-	if (!matrix || !file)
-		return ERROR_INPUT;
-	if (!fscanf(file, "%d", count))
-		return ERROR_INCORRECT;
-	*matrix = malloc(sizeof(double *) * (*count) + sizeof(double) * (*count) * (*count));
-	for (int i = 0; i < (*count); i++)
-		(*matrix)[i] = (double *)((*matrix) + (*count)) + i * (*count);
-
-	for (int i = 0; i < (*count); i++)
-	{
-		for (int j = 0; j < (*count); j++)
-		{
-			if (!fscanf(file, "%lf", (*matrix)[i] + j))
-			{
-				free(matrix);
-				return ERROR_INCORRECT;
-			}
-		}
-	}
-
-	return SUCCESS;
-}
+//error_t input_matrix_from_file(double ***matrix, int *count, FILE *file)
+//{
+//	if (!matrix || !file)
+//		return ERROR_INPUT;
+//	if (!fscanf_s_s_s(file, "%d", count))
+//		return ERROR_INCORRECT;
+//	*matrix = malloc(sizeof(double *) * (*count) + sizeof(double) * (*count) * (*count));
+//	for (int i = 0; i < (*count); i++)
+//		(*matrix)[i] = (double *)((*matrix) + (*count)) + i * (*count);
+//
+//	for (int i = 0; i < (*count); i++)
+//	{
+//		for (int j = 0; j < (*count); j++)
+//		{
+//			if (!fscanf_s_s_s(file, "%lf", (*matrix)[i] + j))
+//			{
+//				free(matrix);
+//				return ERROR_INCORRECT;
+//			}
+//		}
+//	}
+//
+//	return SUCCESS;
+//}
 
 error_t input_integer(int *number, const char *name, char is_positive)
 {
@@ -58,7 +58,7 @@ error_t input_integer(int *number, const char *name, char is_positive)
 	while (1)
 	{
 		printf("Введите %s (целое число):", name);
-		if (scanf("%d", number) == 0)
+		if (scanf_s("%d", number) == 0)
 		{
 			puts("Вы ввели не целое число!");
 			continue;
@@ -78,7 +78,7 @@ error_t input_float(double *number, const char *name, char is_positive)
 	while (1)
 	{
 		printf("Введите %s (число):", name);
-		if (scanf("%lf", number) == 0)
+		if (scanf_s("%lf", number) == 0)
 		{
 			puts("Вы ввели не число!");
 			continue;

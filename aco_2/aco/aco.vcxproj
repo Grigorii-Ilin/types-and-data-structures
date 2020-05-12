@@ -140,7 +140,7 @@
   <ItemGroup>
     <ClCompile Include="aco.c" />
     <ClCompile Include="func_memory.c" />
-    <ClCompile Include="generator.c" />
+    <ClCompile Include="towns_generator.c" />
     <ClCompile Include="io.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="notaco.c" />
@@ -155,6 +155,7 @@
     <ClInclude Include="list.h" />
     <ClInclude Include="notaco.h" />
     <ClInclude Include="parameters.h" />
+    <ClInclude Include="towns_generator.h" />
     <ClInclude Include="way.h" />
   </ItemGroup>
   <ItemGroup>
