@@ -2,14 +2,14 @@ import sys
 import numpy as np
 
 
-class AntColony(object):
+class AntsColony():
 	def __init__(self, towns_matrix, ants_count, interations_count, vaporization_coef, power_coef):
-		self.distances = towns_matrix	
+		self.towns_matrix = towns_matrix[:]	
 
-		for i in range(len(self.distances)):
-			self.distances[i][i]=100000
+		for i in range(len(self.towns_matrix)):
+			self.towns_matrix[i][i]=100000
 
-		self.pheromones = np.ones(self.distances.shape) / len(towns_matrix)			
+		self.pheromones = np.ones(self.towns_matrix.shape) / len(towns_matrix)			
 		self.all_cities = range(len(towns_matrix))							
 		self.ants_count = ants_count							
 		self.interations_count = interations_count							
@@ -26,57 +26,57 @@ class AntColony(object):
 			shortest_way = min(all_route, key=lambda x: x[1])
 			
 			
-			if (shortest_way[1] < all_time_shortest_way[1]):	#Нахождение самого короткого пути
+			if (shortest_way[1] < all_time_shortest_way[1]):
 				all_time_shortest_way = shortest_way
-			self.pheromones * self.vaporization_coef			#Испарение феромонов
+			self.pheromones * self.vaporization_coef #Испарение феромонов
 		
-		return all_time_shortest_way#[1]
+		return all_time_shortest_way
 	
 	# Добавление феромонов на участки по которым пробегали муравьи
 	def distribution_pheromone(self, all_route, num_ants, shortest_way):	 
-		sorted_way = sorted(all_route, key=lambda x: x[1])		# Вход: (Все маршруты муравьёв в этой итерации, количество муравьёв, кротчайший путь)
+		sorted_way = sorted(all_route, key=lambda x: x[1])		# Вход: (Все маршруты муравьёв в этой итерации, количество муравьёв, кратчайший путь)
 		for way, _ in sorted_way[:num_ants]:
 			for move in way:
-				self.pheromones[move] += 1/self.distances[move]
+				self.pheromones[move] += 1/self.towns_matrix[move]
 				
-	# Считает длину пути муравья Вход:(Маршрут муравья)
-	def gen_path_dist(self, way):					
+	def gen_path_dist(self, way):		
+	# Считает длину пути муравья Вход:(Маршрут муравья)			
 		total_distance = 0
 		for l in way:
-			 total_distance += self.distances[l]
-		return total_distance				# Выход: (Длина маршрута)
+			 total_distance += self.towns_matrix[l]
+		return total_distance	# Выход: (Длина маршрута)
 	
-	# Формируем маршруты всех муравёв
-	def gen_all_route(self):						
+	def gen_all_route(self):
+	# Формируем маршруты всех муравёв						
 		all_route = []
 		for _ in range(self.ants_count):
 			way = self.gen_way(0)			
 			all_route.append((way, self.gen_path_dist(way)))
-		return all_route				# Выход: (список маршрутов всех муравьёв и его длина)
+		return all_route
 	
-	# Формируем муршрут каждого муравья	
-	def gen_way(self, start):												
+	def gen_way(self, start):	
+	# Формируем муршрут каждого муравья											
 		way = []
 		visited = set()
 		visited.add(start)
 		prev = start
-		for _ in range(len(self.distances)-1):
-			move = self.pick_move(self.pheromones[prev], self.distances[prev], visited)
+		for _ in range(len(self.towns_matrix)-1):
+			move = self.pick_move(self.pheromones[prev], self.towns_matrix[prev], visited)
 			way.append((prev, move))
 			prev = move
 			visited.add(move)
 		way.append((prev, start))	# Возврат в начальную точку
-		return way				# Выход: (список маршрута муравья)
+		return way	# Выход: (список маршрута муравья)
 	
-	# Функция выбора следующего города Вход: ( Массив феромонов в следующие города, Массив расстояний до след городов, кортеж с первым городом)	
 	def pick_move(self, pheromone, dist, visited):
+	# Функция выбора следующего города Вход: ( Массив феромонов в следующие города, Массив расстояний до след городов, кортеж с первым городом)	
 		pheromone = np.copy(pheromone)
 		pheromone[list(visited)] = 0
 		
-		choice = pheromone ** ((1.0/dist) ** self.power_coef)	# Вероятность перехода из вершины i в вершину j 
+		choice = pheromone ** ((1.0/dist) ** self.power_coef)# Вероятность перехода из вершины i в вершину j 
 		
 		norm_choice = choice / choice.sum()		
 		
-		move = np.random.choice(self.all_cities, 1, p=norm_choice) [0]		# Выбор маршрута
+		move = np.random.choice(self.all_cities, 1, p=norm_choice) [0]# Выбор маршрута
 		return move
 
