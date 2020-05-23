@@ -9,7 +9,8 @@ def sm_is_email(str_for_check:str):
     if len(str_for_check)<=6:
         return False
 
-    LETTERS="QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
+    LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    LETTERS+=LETTERS.lower()
 
     if str_for_check[0] not in LETTERS:
         return False
