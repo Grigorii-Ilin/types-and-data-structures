@@ -33,8 +33,8 @@ def sm_is_email(str_for_check:str):
             if dot_part[0] not in LETTERS:
                 return False
 
-            for s in dot_part[1:]:
-                if s not in POSSIBLE_SYMBOLS:
+            for c in dot_part[1:]:
+                if c not in POSSIBLE_SYMBOLS:
                     return False
 
     return True
