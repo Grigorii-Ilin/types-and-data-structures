@@ -14,13 +14,10 @@ def sm_is_email(str_for_check:str):
     if str_for_check[0] not in LETTERS:
         return False
 
-    if str_for_check.count("@")!=1:
-        return False
-
-    if str_for_check.count("..")>=1:
-        return False
-
     at_parts=str_for_check.split("@")
+
+    if len(at_parts)!=1:
+        return False
 
     if at_parts[1].count(".")<=0:
         return False
@@ -47,7 +44,8 @@ functions=[regex_is_email, sm_is_email]
 test_strings=["asfd@mail.ru",
             ".hgvgyvg@bjh4jh.uh56h",
             "kjjk.lm09lk_lk.lkj@llj.oi45i-kj.sag",
-            "bkjbnjn..kj@jhbjuh.cfm"
+            "bkjbnjn..kj@jhbjuh.cfm",
+            "bubjh@lkmlkmlk@lkml.ettyy"
             ]
 
 for f in functions:
